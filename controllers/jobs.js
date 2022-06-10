@@ -32,6 +32,12 @@ exports.getJob = async (req, res) => {
 exports.createJob = async (req, res) => {
   const { company, position } = req.body
   const { userID } = req.user
+
+  if (!company || !position) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ msg: 'Please provide company and position' })
+  }
   try {
     const job = await Jobs.create({ company, position, createdBy: userID })
     res
