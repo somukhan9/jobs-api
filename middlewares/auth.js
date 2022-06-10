@@ -28,7 +28,7 @@ const authenticateUser = (req, res, next) => {
     }
     if (error.name === 'JsonWebTokenError') {
       return res.status(StatusCodes.UNAUTHORIZED).json({
-        msg: 'Session timed out. Please login again',
+        msg: 'Invalid token. Try again',
       })
     }
     console.error(error)
