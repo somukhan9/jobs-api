@@ -57,7 +57,7 @@ exports.updateJob = async (req, res) => {
   try {
     const job = await Jobs.findByIdAndUpdate(
       { _id: jobID, createdBy: userID },
-      { $set: req.body },
+      req.body,
       { new: true }
     )
     if (!job) {
