@@ -10,6 +10,12 @@ const { StatusCodes } = require('http-status-codes')
 // Auth Middleware import
 const authenticateUser = require('./middlewares/auth')
 
+// Swagger
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs')
+
+const swaggerDocument = YAML.load('./swagger.yaml')
+
 // Rate Limit
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -35,6 +41,8 @@ app.use('/api/v1/jobs', authenticateUser, require('./routes/jobs'))
 app.get('/', (req, res) => {
   res.send('<h1>Jobs API</h1><a href="#">Documentation</a>')
 })
+
+app.get('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 app.all('*', (req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({ msg: 'Not Found.' })
