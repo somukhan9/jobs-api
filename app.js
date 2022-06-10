@@ -32,6 +32,10 @@ app.use(limiter)
 app.use('/api/v1/auth', require('./routes/auth'))
 app.use('/api/v1/jobs', authenticateUser, require('./routes/jobs'))
 
+app.get('/', (req, res) => {
+  res.send('<h1>Jobs API</h1><a href="#">Documentation</a>')
+})
+
 app.all('*', (req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({ msg: 'Not Found.' })
 })
