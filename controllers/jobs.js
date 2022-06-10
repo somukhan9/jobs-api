@@ -47,6 +47,13 @@ exports.createJob = async (req, res) => {
 exports.updateJob = async (req, res) => {
   const { id: jobID } = req.params
   const { userID } = req.user
+  const { company, position } = req.body
+
+  if (!company || !position) {
+    return res
+      .status(StatusCodes.BAD_REQUEST)
+      .json({ msg: 'Please provide company and position' })
+  }
   try {
     const job = await Jobs.findByIdAndUpdate(
       { _id: jobID, createdBy: userID },
@@ -67,13 +74,7 @@ exports.updateJob = async (req, res) => {
 exports.deleteJob = async (req, res) => {
   const { id: jobID } = req.params
   const { userID } = req.user
-  const { company, position } = req.body
 
-  if (!company || !position) {
-    return res
-      .status(StatusCodes.BAD_REQUEST)
-      .json({ msg: 'Please provide company and position' })
-  }
   try {
     const job = await Jobs.findByIdAndRemove({ _id: jobID, createdBy: userID })
     if (!job) {
