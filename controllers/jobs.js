@@ -17,7 +17,7 @@ exports.getJob = async (req, res) => {
   const { id: jobID } = req.params
   const { userID } = req.user
   try {
-    const job = await Jobs.findOne({ jobID })
+    const job = await Jobs.findOne({ _id: jobID, createdBy: userID })
     if (!job) {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: 'Job not found' })
     }
